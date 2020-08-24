@@ -1,13 +1,16 @@
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.dispatch import receiver
 
 # Create your models here.
+from django.db.models.signals import post_save
+
+
 class Profile(models.Model):
     PROGRAMME_STATES = (('Btech', 'Btech'),
                         ('Mtech', 'Mtech'),
                         ('Phd', 'Phd'))
-
+    user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
     name = models.CharField(max_length=30)
     roll_no = models.PositiveIntegerField()
     year = models.PositiveIntegerField()
@@ -18,10 +21,11 @@ class Profile(models.Model):
     gender = models.CharField(max_length=6)
 
     def __str__(self):
-        return self.roll_no
+        return self.name
 
     @classmethod
-    def create(cls, name, roll_no, year, branch, programme, gender):
-        profile = cls(name=name, roll_no=roll_no, year=year, branch=branch, programme=programme, gender=gender)
+    def create(cls, user, name, roll_no, gender, year, branch, programme, email_id):
+        profile = cls(user=user, name=name, roll_no=roll_no, gender=gender, year=year, branch=branch,
+                      programme=programme,
+                      email_id=email_id)
         return profile
-

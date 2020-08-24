@@ -1,0 +1,9 @@
+{%extends 'books/base.html'%}
+
+{%block title%}
+    Home
+{%endblock title%}
+{%block content%}
+<a href="{% url 'accounts:logout' %}">Logout</a>
+ok
+{%endblock%}

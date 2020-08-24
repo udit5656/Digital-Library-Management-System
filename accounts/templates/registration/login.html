@@ -5,7 +5,8 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="{%url 'books:home'%}" method="get">
+    <form action="{%url 'accounts:login'%}" method="post">
+        {%csrf_token%}
         {{form}}
         <input value="Login" type="submit">
     </form>
