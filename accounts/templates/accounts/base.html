@@ -10,23 +10,14 @@
     <body>
         <div class="row">
             <div class="col-3">
-                <li><a href="{%url 'accounts:profile' profile.roll_no%}">Profile</a></li>
-                </li><a href="{%url 'books:home'%}">Home</a></li>
+
             </div>
             <div class="col">
                 {%block content%}
                 {%endblock content%}
             </div>
             <div class="col-3">
-                Profile
-                <li>Name: {{profile.name}}</li>
-                <li>Roll No: {{profile.roll_no}}</li>
-                <li>Gender: {{profile.gender}}</li>
-                <li>Branch: {{profile.branch}}</li>
-                <li>Year: {{profile.year}}</li>
-                <li>Programme: {{profile.programme}}</li>
-                <li>Email Id: {{profile.email_id}}</li>
-                <a href="{% url 'accounts:logout' %}">Logout</a>
+
             </div>
         </div>
     </body>

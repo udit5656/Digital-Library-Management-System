@@ -5,7 +5,7 @@
 {%endblock title%}
 {%block content%}
 Profile
-    <form method="post" action="{%url 'accounts:edit_profile' user_roll_no %}">
+    <form method="post" action="{%url 'accounts:edit_profile' user_roll_no %}" enctype="multipart/form-data">
         {%csrf_token%}
         {{form}}
         <input value="Save" type="submit">
