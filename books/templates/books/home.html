@@ -4,6 +4,8 @@
     Home
 {%endblock title%}
 {%block content%}
-
-ok
+    <form action="{%url 'books:home'%}" method="get">
+        {{form}}
+        <input value="Search" type="submit" class="btn btn-primary">
+    </form>
 {%endblock%}
