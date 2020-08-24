@@ -4,7 +4,19 @@
     Result Page
 {%endblock title%}
 {%block content%}
-    {%for book in result%}
-        {{book.title}}
-    {%endfor%}
+    <div class="container">
+        {%for book in result%}
+            <div class="row">
+                <div class="col-1">{{forloop.counter}}.</div>
+                <div class="col">{{book.title}}</div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col-2">{{book.author_name}}</div>
+                <div class="col-1">{{book.pages}} Pages</div>
+                <div class="col"></div>
+            </div>
+        {%endfor%}
+        <div align="center">End of Results</div>
+    </div>
 {%endblock%}
