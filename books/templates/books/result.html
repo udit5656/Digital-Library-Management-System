@@ -1,0 +1,10 @@
+{%extends 'books/base.html'%}
+
+{%block title%}
+    Result Page
+{%endblock title%}
+{%block content%}
+    {%for book in result%}
+        {{book.title}}
+    {%endfor%}
+{%endblock%}
