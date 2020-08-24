@@ -1,3 +1,6 @@
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.min.css'%}">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,16 +8,16 @@
     <title>{%block title%}{%endblock title%}</title>
 </head>
 <body>
-    {%block content%}
-    {%endblock content%}
-        <div>
+    <div class="row">
+        <div class="col-3">
             <a href="">Profile</a>
             <a href="{%url 'books:home'%}">Home</a>
         </div>
-        <div>
-
+        <div class="col">
+            {%block content%}
+            {%endblock content%}
         </div>
-        <div>
+        <div class="col-3">
             Profile
             <li>Name: {{profile.name}}</li>
             <li>Roll No: {{profile.roll_no}}</li>
@@ -23,7 +26,8 @@
             <li>Year: {{profile.year}}</li>
             <li>Programme: {{profile.programme}}</li>
             <li>Email Id: {{profile.email_id}}</li>
+            <a href="{% url 'accounts:logout' %}">Logout</a>
         </div>
-
+    </div>
 </body>
 </html>
