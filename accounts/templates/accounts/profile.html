@@ -1,0 +1,18 @@
+{%extends 'accounts/base.html'%}
+
+{%block title%}
+    Profile
+{%endblock title%}
+{%block content%}
+Profile
+    <li>Name: {{profile.name}}</li>
+    <li>Roll No: {{profile.roll_no}}</li>
+    <li>Gender: {{profile.gender}}</li>
+    <li>Branch: {{profile.branch}}</li>
+    <li>Year: {{profile.year}}</li>
+    <li>Programme: {{profile.programme}}</li>
+    <li>Email Id: {{profile.email_id}}</li>
+    <form action="">
+        <input type="submit" value="Edit Profile" class="btn btn-primary">
+    </form>
+{%endblock%}

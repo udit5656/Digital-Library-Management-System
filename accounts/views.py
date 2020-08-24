@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -38,3 +39,10 @@ def signup_view(request):
     profile_form = ProfileForm()
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'accounts/signup.html', context)
+
+
+@login_required
+def profile_view(request, user_roll_no):
+    profile = Profile.objects.get(roll_no=user_roll_no)
+    context = {'profile': profile}
+    return render(request, 'accounts/profile.html', context)
