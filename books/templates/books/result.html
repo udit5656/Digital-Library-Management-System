@@ -8,7 +8,7 @@
         {%for book in result%}
             <div class="row">
                 <div class="col-1">{{forloop.counter}}.</div>
-                <div class="col">{{book.title}}</div>
+                <div class="col"><a href="{%url 'books:detail_view' book.pk%}">{{book.title}}</a></div>
             </div>
             <div class="row">
                 <div class="col"></div>

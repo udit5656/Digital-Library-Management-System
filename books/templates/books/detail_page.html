@@ -1,0 +1,24 @@
+{%extends 'books/base.html'%}
+
+{%block title%}
+    Home
+{%endblock title%}
+{%block content%}
+    <div class="container">
+        <div class="row">
+            <h1>{{book.title}}</h1>
+        </div>
+        <div class="row">
+            <h4>{{book.author_name}}</h4>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">Year: {{book.pub_year}}</div>
+            <div class="col">Pages: {{book.pages}}</div>
+        </div>
+        <div class="row">
+            <div class="col">Publisher: {{book.publisher_name}}</div>
+        </div>
+    </div>
+{%endblock%}

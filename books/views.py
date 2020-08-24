@@ -23,3 +23,11 @@ def home(request):
         profile = User.objects.get(username=request.user.username).profile
         context = {'profile': profile, 'form': form}
         return render(request, 'books/home.html', context=context)
+
+
+@login_required
+def detail_view(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    profile = User.objects.get(username=request.user.username).profile
+    context = {'book': book, 'profile': profile}
+    return render(request, 'books/detail_page.html', context)
