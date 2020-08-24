@@ -46,3 +46,19 @@ def profile_view(request, user_roll_no):
     profile = Profile.objects.get(roll_no=user_roll_no)
     context = {'profile': profile}
     return render(request, 'accounts/profile.html', context)
+
+
+def edit_profile(request, user_roll_no):
+    profile = Profile.objects.get(roll_no=user_roll_no)
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=request.user.profile)
+        if form.is_valid():
+            form.save()
+            profile = Profile.objects.get(roll_no=user_roll_no)
+            context = {'user_roll_no': form.cleaned_data['roll_no']}
+            return HttpResponseRedirect(reverse('accounts:profile', kwargs=context))
+        context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
+        return render(request, 'accounts/edit_profile.html', context)
+    form = ProfileForm(instance=request.user.profile)
+    context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
+    return render(request, 'accounts/edit_profile.html', context)

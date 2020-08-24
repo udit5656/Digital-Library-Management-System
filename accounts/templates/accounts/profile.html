@@ -12,7 +12,7 @@ Profile
     <li>Year: {{profile.year}}</li>
     <li>Programme: {{profile.programme}}</li>
     <li>Email Id: {{profile.email_id}}</li>
-    <form action="">
+    <form action="{%url 'accounts:edit_profile' profile.roll_no%}">
         <input type="submit" value="Edit Profile" class="btn btn-primary">
     </form>
 {%endblock%}

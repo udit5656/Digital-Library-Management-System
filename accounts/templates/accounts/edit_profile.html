@@ -1,0 +1,13 @@
+{%extends 'accounts/base.html'%}
+
+{%block title%}
+    Profile
+{%endblock title%}
+{%block content%}
+Profile
+    <form method="post" action="{%url 'accounts:edit_profile' user_roll_no %}">
+        {%csrf_token%}
+        {{form}}
+        <input value="Save" type="submit">
+    </form>
+{%endblock%}
