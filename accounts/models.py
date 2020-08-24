@@ -11,14 +11,14 @@ class Profile(models.Model):
                         ('Mtech', 'Mtech'),
                         ('Phd', 'Phd'))
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=None)
-    name = models.CharField(max_length=30)
-    roll_no = models.PositiveIntegerField()
-    year = models.PositiveIntegerField()
-    branch = models.CharField(max_length=5)
+    name = models.CharField(max_length=30, verbose_name='Name')
+    roll_no = models.PositiveIntegerField(verbose_name='Roll_no')
+    year = models.PositiveIntegerField(verbose_name='Year')
+    branch = models.CharField(max_length=5, verbose_name='Branch')
     programme = models.CharField(max_length=5, choices=PROGRAMME_STATES,
-                                 default='Btech')
-    email_id = models.EmailField(blank=True)
-    gender = models.CharField(max_length=6)
+                                 default='Btech', verbose_name='Programme')
+    email_id = models.EmailField(blank=True, verbose_name='Email ID')
+    gender = models.CharField(max_length=6, verbose_name='Gender')
 
     def __str__(self):
         return self.name

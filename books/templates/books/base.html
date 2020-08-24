@@ -7,5 +7,23 @@
 <body>
     {%block content%}
     {%endblock content%}
+        <div>
+            <a href="">Profile</a>
+            <a href="{%url 'books:home'%}">Home</a>
+        </div>
+        <div>
+
+        </div>
+        <div>
+            Profile
+            <li>Name: {{profile.name}}</li>
+            <li>Roll No: {{profile.roll_no}}</li>
+            <li>Gender: {{profile.gender}}</li>
+            <li>Branch: {{profile.branch}}</li>
+            <li>Year: {{profile.year}}</li>
+            <li>Programme: {{profile.programme}}</li>
+            <li>Email Id: {{profile.email_id}}</li>
+        </div>
+
 </body>
 </html>
