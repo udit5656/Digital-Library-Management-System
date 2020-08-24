@@ -13,7 +13,7 @@ from .models import Profile
 def signup_view(request):
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST)
-        profile_form = ProfileForm(request.POST)
+        profile_form = ProfileForm(request.POST, request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
             user = user_form.save()
             user.save()
@@ -24,9 +24,10 @@ def signup_view(request):
             year = profile_form.cleaned_data['year']
             programme = profile_form.cleaned_data['programme']
             email_id = profile_form.cleaned_data['email_id']
+            profile_photo = profile_form.cleaned_data['profile_photo']
             profile = Profile.objects.create(user=user, name=name, roll_no=roll_no, gender=gender, year=year,
                                              branch=branch,
-                                             programme=programme, email_id=email_id)
+                                             programme=programme, email_id=email_id, profile_photo=profile_photo)
             profile.save()
             username = user_form.cleaned_data['username']
             password = user_form.cleaned_data['password1']
@@ -51,7 +52,7 @@ def profile_view(request, user_roll_no):
 def edit_profile(request, user_roll_no):
     profile = Profile.objects.get(roll_no=user_roll_no)
     if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=request.user.profile)
+        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
         if form.is_valid():
             form.save()
             profile = Profile.objects.get(roll_no=user_roll_no)

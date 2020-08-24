@@ -16,7 +16,8 @@ class ProfileForm(forms.ModelForm):
     programme = forms.CharField(label="Enter your programme", widget=forms.Select(choices=PROGRAMME_STATES))
     email_id = forms.EmailField()
     gender = forms.CharField(max_length=6)
+    profile_photo = forms.ImageField()
 
     class Meta:
         model = Profile
-        fields = ('name', 'gender', 'roll_no', 'branch', 'year', 'programme', 'email_id',)
+        fields = ('name', 'gender', 'roll_no', 'branch', 'year', 'programme', 'email_id','profile_photo')

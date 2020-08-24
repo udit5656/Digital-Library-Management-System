@@ -4,7 +4,7 @@
     SignUp
 {%endblock title%}
 {%block content%}
-<form method="post" action="{%url 'accounts:signup'%}">
+<form method="post" action="{%url 'accounts:signup'%}" enctype="multipart/form-data">
     {%csrf_token%}
     {{user_form}}
     {{profile_form}}

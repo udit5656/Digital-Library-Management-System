@@ -19,6 +19,7 @@ class Profile(models.Model):
                                  default='Btech', verbose_name='Programme')
     email_id = models.EmailField(blank=True, verbose_name='Email ID')
     gender = models.CharField(max_length=6, verbose_name='Gender')
+    profile_photo = models.ImageField(upload_to='images/',blank=True,null=True)
 
     def __str__(self):
         return self.name
