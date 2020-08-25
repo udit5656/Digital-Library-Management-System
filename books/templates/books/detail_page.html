@@ -20,5 +20,12 @@
         <div class="row">
             <div class="col">Publisher: {{book.publisher_name}}</div>
         </div>
+        <div class="row">
+            <div class="col">
+                <form action="{% url 'book_issue:issue' book.pk %}" method="get">
+                    <input type="submit" value="Get Issue Code" class="btn btn-primary">
+                </form>
+            </div>
+        </div>
     </div>
 {%endblock%}

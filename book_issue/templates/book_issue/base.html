@@ -1,0 +1,33 @@
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.min.css'%}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title%}{%endblock title%}</title>
+</head>
+    <body>
+        <div class="row">
+            <div class="col-3">
+                <li><a href="{%url 'profiles:profile' user.profile.roll_no%}">Profile</a></li>
+                </li><a href="{%url 'books:home'%}">Home</a></li>
+            </div>
+            <div class="col">
+                {%block content%}
+                {%endblock content%}
+            </div>
+            <div class="col-3">
+                Profile
+                <li>Name: {{user.profile.name}}</li>
+                <li>Roll No: {{user.profile.roll_no}}</li>
+                <li>Gender: {{user.profile.gender}}</li>
+                <li>Branch: {{user.profile.branch}}</li>
+                <li>Year: {{user.profile.year}}</li>
+                <li>Programme: {{user.profile.programme}}</li>
+                <li>Email Id: {{user.profile.email_id}}</li>
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+        </div>
+    </body>
+</html>

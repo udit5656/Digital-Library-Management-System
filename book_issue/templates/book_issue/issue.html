@@ -1,0 +1,9 @@
+{%extends 'book_issue/base.html'%}
+
+{%block title%}
+    Book Issue
+{%endblock title%}
+{%block content%}
+    {{book_issue_code.book.title}}
+    <div>{{book_issue_code.code}}</div>
+{%endblock%}

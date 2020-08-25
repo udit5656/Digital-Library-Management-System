@@ -23,6 +23,7 @@ urlpatterns = [
     path('books/', include('books.urls')),
     path('accounts/', include('accounts.urls')),
     path('profiles/', include('profiles.urls')),
+    path('issue/', include('book_issue.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

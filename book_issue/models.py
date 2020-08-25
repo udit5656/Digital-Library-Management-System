@@ -1,6 +1,7 @@
 import random
 import string
 
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -19,13 +20,13 @@ def random_string_generator(size=8, chars=string.ascii_lowercase + string.digits
 
 class BookIssueCode(TimeStampModel):
     """Issues code for claiming of book and check for it's validation"""
-    roll_no = models.PositiveIntegerField()
-    book = models.CharField(max_length=100)
-    code = models.CharField(max_length=8)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
+    book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='book')
+    code = models.CharField(max_length=6)
 
     @classmethod
-    def create(cls, roll_no, book):
-        book_issue_code = cls(roll_no=roll_no, book=book, code=random_string_generator())
+    def create(cls, user, book):
+        book_issue_code = cls(user=user, book=book, code=random_string_generator())
         return book_issue_code
 
     # Add a method which checks expiry of code
