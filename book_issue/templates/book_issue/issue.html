@@ -4,6 +4,10 @@
     Book Issue
 {%endblock title%}
 {%block content%}
-    {{book_issue_code.book.title}}
-    <div>{{book_issue_code.code}}</div>
+    {%if error%}
+        {{error}}
+    {%else%}
+        {{book_issue_code.book.title}}
+        <div>{{book_issue_code.code}}</div>
+    {%endif%}
 {%endblock%}
