@@ -1,4 +1,4 @@
-{%extends 'accounts/base.html'%}
+{%extends 'profiles/base.html'%}
 
 {%block title%}
     Profile
@@ -21,7 +21,7 @@ Profile
             </div>
         </div>
     </div>
-    <form action="{%url 'accounts:edit_profile' profile.roll_no%}">
+    <form action="{%url 'profiles:edit_profile' profile.roll_no%}">
         <input type="submit" value="Edit Profile" class="btn btn-primary">
     </form>
 {%endblock%}

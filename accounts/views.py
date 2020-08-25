@@ -5,11 +5,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from .forms import ProfileForm
-from .models import Profile
-
-
 # Create your views here.
+from django.apps import apps
+from profiles.forms import ProfileForm
+Profile = apps.get_model('profiles', 'Profile')
+
+
 def signup_view(request):
     if request.method == 'POST':
         user_form = UserCreationForm(request.POST)
@@ -40,26 +41,3 @@ def signup_view(request):
     profile_form = ProfileForm()
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'accounts/signup.html', context)
-
-
-@login_required
-def profile_view(request, user_roll_no):
-    profile = Profile.objects.get(roll_no=user_roll_no)
-    context = {'profile': profile}
-    return render(request, 'accounts/profile.html', context)
-
-
-def edit_profile(request, user_roll_no):
-    profile = Profile.objects.get(roll_no=user_roll_no)
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if form.is_valid():
-            form.save()
-            profile = Profile.objects.get(roll_no=user_roll_no)
-            context = {'user_roll_no': form.cleaned_data['roll_no']}
-            return HttpResponseRedirect(reverse('accounts:profile', kwargs=context))
-        context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
-        return render(request, 'accounts/edit_profile.html', context)
-    form = ProfileForm(instance=request.user.profile)
-    context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
-    return render(request, 'accounts/edit_profile.html', context)
