@@ -29,6 +29,8 @@ class BookIssueCode(TimeStampModel):
         book_issue_code = cls(user=user, book=book, code=random_string_generator())
         return book_issue_code
 
+    def __str__(self):
+        return self.code
     # Add a method which checks expiry of code
     # check if same user is asking for same book code again
 
