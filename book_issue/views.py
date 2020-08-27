@@ -1,8 +1,12 @@
 from django.apps import apps
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse
+from django.core.exceptions import ValidationError
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from .models import BookIssueCode
+from django.urls import reverse
+
+from .models import BookIssueCode, IssuedBook
+from .forms import AdminBookIssueCodeForm
 
 Book = apps.get_model('books', 'Book')
 
@@ -24,4 +28,20 @@ def issue(request, book_id):
 
 @permission_required('book_issue.add_bookissuecode')
 def admin_site_view(request):
-    return HttpResponse('ok')
+    pending_book_issue_requests = BookIssueCode.objects.all().order_by('-created')
+    if request.method == 'POST':
+        form = AdminBookIssueCodeForm(request.POST)
+        if form.is_valid():
+            pk = request.POST.get('enter')
+            book_issue_code = BookIssueCode.objects.get(pk=pk)
+            if book_issue_code.check_code(form.cleaned_data['code']):
+                issued_book = IssuedBook.create(user=request.user, book=book_issue_code.book)
+                issued_book.save()
+                book_issue_code.delete()
+                return HttpResponseRedirect(reverse('book_issue:admin_site'))
+            form.add_error('code', ValidationError("Wrong Code"))
+        return render(request, 'book_issue/admin_issue.html',
+                      {'form': form, 'pending_book_issue_requests': pending_book_issue_requests})
+    form = AdminBookIssueCodeForm()
+    context = {'pending_book_issue_requests': pending_book_issue_requests, 'form': form}
+    return render(request, 'book_issue/admin_issue.html', context)

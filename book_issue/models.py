@@ -14,7 +14,7 @@ class TimeStampModel(models.Model):
         abstract = True
 
 
-def random_string_generator(size=8, chars=string.ascii_lowercase + string.digits):
+def random_string_generator(size=6, chars=string.ascii_lowercase + string.digits):
     return ''.join(random.choice(chars) for _ in range(size))
 
 
@@ -32,6 +32,11 @@ class BookIssueCode(TimeStampModel):
     def __str__(self):
         return self.code
 
+    def check_code(self, code):
+        if self.code == code:
+            return True
+        return False
+
     class Meta:
         permissions = (
             ("can_enter_code_to_issue_book", "can enter code to issue book"),
@@ -43,12 +48,15 @@ class BookIssueCode(TimeStampModel):
 
 class IssuedBook(TimeStampModel):
     """Check if code entered while claiming book is write and on update database regarding current state of book"""
-    roll_no = models.PositiveIntegerField()
-    book = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_book_user')
+    book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='issued_book')
     # Add time stamp of issue book
     # Add method to delete BookIssueCode delete after claiming book
     # Add method to update database
-
+    @classmethod
+    def create(cls, user, book):
+        issued_book = cls(user=user, book=book)
+        return issued_book
 
 class BookReturn(TimeStampModel):
     roll_no = models.PositiveIntegerField()
