@@ -1,3 +1,6 @@
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.min.css'%}">
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +12,7 @@
     <form action="{%url 'accounts:admin_site_login'%}" method="post">
         {%csrf_token%}
         {{form}}
-        <input value="Login" type="submit">
+        <input value="Login" type="submit" class="btn btn-primary">
         <input type="hidden" name="next" value="{% url 'librarian:home'%}">
     </form>
 </body>

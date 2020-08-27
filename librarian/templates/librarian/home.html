@@ -1,4 +1,4 @@
-{%extends 'book_issue/base.html'%}
+{%extends 'librarian/base.html'%}
 
 {%block title%}
     Librarian Home Page
@@ -10,7 +10,7 @@
             {{book_issue_request.user.username}}
             {{book_issue_request.book.title}}
             {{form}}
-            <input type="submit" name="check_code" value="{{book_issue_request.pk}}">
+            <input type="submit" name="check_code" value="{{book_issue_request.pk}}" class="btn btn-primary">
         </form>
     {%endfor%}
 {%endblock%}
