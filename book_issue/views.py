@@ -1,4 +1,6 @@
 from django.apps import apps
+from django.contrib.auth.decorators import permission_required
+from django.http import HttpResponse
 from django.shortcuts import render
 from .models import BookIssueCode
 
@@ -18,3 +20,8 @@ def issue(request, book_id):
         error = "This book is currently not available. Please try later."
         context = {'error': error, 'book_id': book_id, 'book_issue_code': None}
     return render(request, 'book_issue/issue.html', context)
+
+
+@permission_required('book_issue.add_bookissuecode')
+def admin_site_view(request):
+    return HttpResponse('ok')

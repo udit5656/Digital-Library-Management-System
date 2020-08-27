@@ -5,6 +5,7 @@
     <title>Login</title>
 </head>
 <body>
+    <div><a href="{% url 'accounts:admin_site_login' %}">Admin Site</a> </div>
     <form action="{%url 'accounts:login'%}" method="post">
         {%csrf_token%}
         {{form}}

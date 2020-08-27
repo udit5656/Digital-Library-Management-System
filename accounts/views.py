@@ -1,13 +1,15 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
+from django.core.exceptions import ValidationError
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-
+from django.contrib.auth.forms import AuthenticationForm
 # Create your views here.
 from django.apps import apps
 from profiles.forms import ProfileForm
+
 Profile = apps.get_model('profiles', 'Profile')
 
 
@@ -41,3 +43,15 @@ def signup_view(request):
     profile_form = ProfileForm()
     context = {'user_form': user_form, 'profile_form': profile_form}
     return render(request, 'accounts/signup.html', context)
+
+
+def admin_site_login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect(reverse('accounts:admin_site'))
+        return render(request, 'registration/admin_login.html')
+    return render(request, 'registration/admin_login.html')

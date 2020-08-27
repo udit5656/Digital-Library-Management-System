@@ -31,6 +31,12 @@ class BookIssueCode(TimeStampModel):
 
     def __str__(self):
         return self.code
+
+    class Meta:
+        permissions = (
+            ("can_enter_code_to_issue_book", "can enter code to issue book"),
+        )
+
     # Add a method which checks expiry of code
     # check if same user is asking for same book code again
 

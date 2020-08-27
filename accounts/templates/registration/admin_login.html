@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <div><a href="{% url 'accounts:login' %}">User Login</a> </div>
+    <form action="{%url 'accounts:admin_site_login'%}" method="post">
+        {%csrf_token%}
+        {{form}}
+        <input value="Login" type="submit">
+        <input type="hidden" name="next" value="{% url 'book_issue:admin_site'%}">
+    </form>
+</body>
+</html>
