@@ -1,3 +1,4 @@
+from django.apps import apps
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -6,13 +7,18 @@ from django.urls import reverse
 from .models import Profile
 from .forms import ProfileForm
 
+BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
+IssuedBook = apps.get_model('book_issue', 'IssuedBook')
+
 
 # Create your views here.
 
 @login_required
 def profile_view(request, user_roll_no):
     profile = Profile.objects.get(roll_no=user_roll_no)
-    context = {'profile': profile}
+    book_issue_requests = BookIssueCode.objects.all().filter(user=request.user)
+    issued_books = IssuedBook.objects.all().filter(user=request.user)
+    context = {'profile': profile, 'book_issue_requests': book_issue_requests, 'issued_books': issued_books}
     return render(request, 'profiles/profile.html', context)
 
 

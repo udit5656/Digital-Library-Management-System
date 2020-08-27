@@ -47,7 +47,7 @@ class BookIssueCode(TimeStampModel):
 
 
 class IssuedBook(TimeStampModel):
-    """Check if code entered while claiming book is write and on update database regarding current state of book"""
+    """Check if code entered while claiming book is right and on update database regarding current state of book"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_book_user')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='issued_book')
 

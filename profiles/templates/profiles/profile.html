@@ -20,8 +20,46 @@ Profile
                 <li>Email Id: {{profile.email_id}}</li>
             </div>
         </div>
+        <div class="row">
+            <form action="{%url 'profiles:edit_profile' profile.roll_no%}">
+                <input type="submit" value="Edit Profile" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-auto">
+                <div class="heading">Pending Book Issue Requests</div>
+                <div class="container">
+                    <table>
+                        <tr>
+                            <th>Book Name</th>
+                            <th>Code</th>
+                        </tr>
+                        {%for book_issue_request in book_issue_requests%}
+                            <tr>
+                                <td>{{book_issue_request.book.title}}</td>
+                                <td>{{book_issue_request.code}}</td>
+                            </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+                <div class="heading">Books Issued</div>
+                <div class="container">
+                    <table>
+                        <tr>
+                            <th>Book Name</th>
+                            <th>Issued Time</th>
+                        </tr>
+                        {%for issued_book in issued_books%}
+                            <tr>
+                                <td>{{issued_book.book.title}}</td>
+                                <td>{{issued_book.created}}</td>
+                            </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+            </div>
+            <div class="col"></div>
+        </div>
     </div>
-    <form action="{%url 'profiles:edit_profile' profile.roll_no%}">
-        <input type="submit" value="Edit Profile" class="btn btn-primary">
-    </form>
 {%endblock%}
