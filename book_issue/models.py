@@ -32,6 +32,11 @@ class BookIssueCode(TimeStampModel):
     def __str__(self):
         return self.code
 
+    def issue_book(self):
+        issued_book = IssuedBook.create(user=self.user, book=self.book)
+        issued_book.save()
+        self.delete()
+
     def check_code(self, code):
         if self.code == code:
             return True

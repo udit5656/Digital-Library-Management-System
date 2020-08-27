@@ -1,13 +1,9 @@
 {%extends 'librarian/base.html'%}
 
 {%block title%}
-    Librarian Home Page
+    Search Result Page
 {%endblock title%}
 {%block content%}
-    <form method="get" action="{%url 'librarian:search' %}">
-        {{search_form}}
-        <input name="search" value="Search" class="btn btn-primary" type="submit">
-    </form>
     <table>
         <tr>
             <th>Student Name</th>
@@ -17,7 +13,8 @@
             <tr>
                 <td>{{book_issue_request.user.username}}</td>
                 <td>{{book_issue_request.book.title}}</td>
-                <form method="post" action="{%url 'librarian:home'%}" class="form-inline">
+                <form method="post" action="{%url 'librarian:search_result' book_issue_request.user.username %}"
+                      class="form-inline">
                     {%csrf_token%}
                     <td>
                         {{book_issue_code_form}}
@@ -30,5 +27,4 @@
             </tr>
         {%endfor%}
     </table>
-
 {%endblock%}

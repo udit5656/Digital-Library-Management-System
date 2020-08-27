@@ -9,14 +9,14 @@
 </head>
     <body>
         <div class="row">
-            <div class="col-3">
+            <div class="col-2">
                 </li><a href="{%url 'librarian:home'%}">Home</a></li>
             </div>
             <div class="col">
                 {%block content%}
                 {%endblock content%}
             </div>
-            <div class="col-3">
+            <div class="col-2">
                 Role: Librarian
                 <a href="{% url 'accounts:logout' %}">Logout</a>
             </div>
