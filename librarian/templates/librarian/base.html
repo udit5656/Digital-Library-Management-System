@@ -1,0 +1,25 @@
+{%load static%}
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.min.css'%}">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{%block title%}{%endblock title%}</title>
+</head>
+    <body>
+        <div class="row">
+            <div class="col-3">
+                </li><a href="{%url 'librarian:home'%}">Home</a></li>
+            </div>
+            <div class="col">
+                {%block content%}
+                {%endblock content%}
+            </div>
+            <div class="col-3">
+                Role: Librarian
+                <a href="{% url 'accounts:logout' %}">Logout</a>
+            </div>
+        </div>
+    </body>
+</html>

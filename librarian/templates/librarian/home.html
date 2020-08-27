@@ -1,0 +1,16 @@
+{%extends 'book_issue/base.html'%}
+
+{%block title%}
+    Librarian Home Page
+{%endblock title%}
+{%block content%}
+    {%for book_issue_request in book_issue_requests%}
+        <form method="post" action="">
+            {%csrf_token%}
+            {{book_issue_request.user.username}}
+            {{book_issue_request.book.title}}
+            {{form}}
+            <input type="submit" name="check_code" value="{{book_issue_request.pk}}">
+        </form>
+    {%endfor%}
+{%endblock%}
