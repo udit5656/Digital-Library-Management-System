@@ -26,6 +26,7 @@ def edit_profile(request, user_roll_no):
     profile = Profile.objects.get(roll_no=user_roll_no)
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        form.fields['roll_no'].disabled = True
         if form.is_valid():
             form.save()
             profile = Profile.objects.get(roll_no=user_roll_no)
@@ -34,5 +35,6 @@ def edit_profile(request, user_roll_no):
         context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
         return render(request, 'profiles/edit_profile.html', context)
     form = ProfileForm(instance=request.user.profile)
+    form.fields['roll_no'].disabled = True
     context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
     return render(request, 'profiles/edit_profile.html', context)

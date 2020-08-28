@@ -1,5 +1,5 @@
 {%extends 'profiles/base.html'%}
-
+{%load crispy_forms_tags%}
 {%block title%}
     Profile
 {%endblock title%}
@@ -7,7 +7,7 @@
 Profile
     <form method="post" action="{%url 'profiles:edit_profile' user_roll_no %}" enctype="multipart/form-data">
         {%csrf_token%}
-        {{form}}
+        {{form|crispy}}
         <input value="Save" type="submit">
     </form>
 {%endblock%}
