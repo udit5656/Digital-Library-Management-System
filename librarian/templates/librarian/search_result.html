@@ -1,9 +1,13 @@
 {%extends 'librarian/base.html'%}
-
+{%load crispy_forms_tags %}
 {%block title%}
     Search Result Page
 {%endblock title%}
 {%block content%}
+    <form method="get" action="{%url 'librarian:search' %}">
+        {{search_form|crispy}}
+        <input name="search" value="Search" class="btn btn-primary" type="submit">
+    </form>
     <table>
         <tr>
             <th>Student Name</th>
@@ -17,7 +21,7 @@
                       class="form-inline">
                     {%csrf_token%}
                     <td>
-                        {{book_issue_code_form}}
+                        {{book_issue_code_form|crispy}}
                     </td>
                     <td>
                         <input type="submit" name="check_code" value="{{book_issue_request.pk}}"

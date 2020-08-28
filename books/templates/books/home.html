@@ -1,11 +1,11 @@
 {%extends 'books/base.html'%}
-
+{%load crispy_forms_tags%}
 {%block title%}
     Home
 {%endblock title%}
 {%block content%}
     <form action="{%url 'books:home'%}" method="get">
-        {{form}}
+        {{form|crispy}}
         <input value="Search" type="submit" class="btn btn-primary">
     </form>
 {%endblock%}

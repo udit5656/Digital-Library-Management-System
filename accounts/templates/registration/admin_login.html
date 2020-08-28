@@ -1,4 +1,6 @@
 {%load static%}
+
+{% load crispy_forms_tags %}
 <link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.css'%}">
 <link rel="stylesheet" type="text/css" href="{%static 'books/css/bootstrap.min.css'%}">
 <!DOCTYPE html>
@@ -8,12 +10,21 @@
     <title>Login</title>
 </head>
 <body>
-    <div><a href="{% url 'accounts:login' %}">User Login</a> </div>
-    <form action="{%url 'accounts:admin_site_login'%}" method="post">
-        {%csrf_token%}
-        {{form}}
-        <input value="Login" type="submit" class="btn btn-primary">
-        <input type="hidden" name="next" value="{% url 'librarian:home'%}">
-    </form>
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col">
+                <div><a href="{% url 'accounts:login' %}">User Login</a> </div>
+                <form action="{%url 'accounts:admin_site_login'%}" method="post">
+                    {%csrf_token%}
+                    {{form|crispy}}
+                    <input value="Login" type="submit" class="btn btn-primary">
+                    <input type="hidden" name="next" value="{% url 'librarian:home'%}">
+                </form>
+                <div><a href="{%url 'accounts:signup' %}"> Not a User? SignUp</a></div>
+            </div>
+            <div class="col-2"></div>
+        </div>
+    </div>
 </body>
 </html>

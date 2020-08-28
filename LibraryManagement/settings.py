@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'book_issue.apps.BookIssueConfig',
     'profiles.apps.ProfilesConfig',
     'librarian.apps.LibrarianConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 ROOT_URLCONF = 'LibraryManagement.urls'
 

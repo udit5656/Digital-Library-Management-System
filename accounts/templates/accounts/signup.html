@@ -1,13 +1,14 @@
 {%extends 'accounts/base.html'%}
 
+{% load crispy_forms_tags %}
 {%block title%}
     SignUp
 {%endblock title%}
 {%block content%}
 <form method="post" action="{%url 'accounts:signup'%}" enctype="multipart/form-data">
     {%csrf_token%}
-    {{user_form}}
-    {{profile_form}}
+    {{user_form|crispy}}
+    {{profile_form|crispy}}
     <input value="SignUp" type="submit" class="btn btn-primary">
 </form>
 {%endblock%}
