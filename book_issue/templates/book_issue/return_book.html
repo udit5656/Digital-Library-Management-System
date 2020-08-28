@@ -1,0 +1,13 @@
+{%extends 'book_issue/base.html'%}
+{%load crispy_forms_tags %}
+{%block title%}
+    Book Issue
+{%endblock title%}
+{%block content%}
+    <form method="post" action="{%url 'book_issue:book_return' issued_book.pk %}"
+          class="form-inline">
+        {%csrf_token%}
+        {{form|crispy}}
+        <input type="submit" name="check_code" value="{{issued_book.pk}}" class="btn btn-primary" >
+    </form>
+{%endblock%}

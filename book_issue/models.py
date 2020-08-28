@@ -55,20 +55,42 @@ class IssuedBook(TimeStampModel):
     """Check if code entered while claiming book is right and on update database regarding current state of book"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_book_user')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='issued_book')
+    return_code = models.CharField(max_length=6)
 
     # Add time stamp of issue book
     # Add method to delete BookIssueCode delete after claiming book
     # Add method to update database
     @classmethod
     def create(cls, user, book):
-        issued_book = cls(user=user, book=book)
+        issued_book = cls(user=user, book=book, code=random_string_generator())
         return issued_book
+
+    def __str__(self):
+        return self.return_code
+
+    def check_code(self, code):
+        if code == self.return_code:
+            return True
+        return False
+
+    def return_book(self):
+        returned_book = BookReturn.create(user=self.user, book=self.book)
+        returned_book.save()
+        self.delete()
 
 
 class BookReturn(TimeStampModel):
-    roll_no = models.PositiveIntegerField()
-    book = models.CharField(max_length=100)
-    # Updates the book avaiablity
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='return_book_user')
+    book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='returned_book')
+
+    @classmethod
+    def create(cls, user, book):
+        returned_book = cls(user=user, book=book)
+        return returned_book
+
+    def __str__(self):
+        return self.user.profile.name
+    # Updates the book availability
     # update book status in user profile
     # deletes book issue and add it to bookhistory
     # update fine
