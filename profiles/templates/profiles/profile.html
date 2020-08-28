@@ -28,6 +28,7 @@ Profile
         <div class="row">
             <div class="col-2"></div>
             <div class="col-auto">
+
                 <div class="heading">Pending Book Issue Requests</div>
                 <div class="container">
                     <table>
@@ -43,6 +44,7 @@ Profile
                         {%endfor%}
                     </table>
                 </div>
+
                 <div class="heading">Books Issued</div>
                 <div class="container">
                     <table>
@@ -64,6 +66,23 @@ Profile
                         {%endfor%}
                     </table>
                 </div>
+
+                <div class="heading">Books Returned</div>
+                <div class="container">
+                    <table>
+                        <tr>
+                            <th>Book Name</th>
+                            <th>Returned Time</th>
+                        </tr>
+                        {%for returned_book in returned_books%}
+                            <tr>
+                                <td>{{returned_book.book.title}}</td>
+                                <td>{{returned_book.created}}</td>
+                            </tr>
+                        {%endfor%}
+                    </table>
+                </div>
+
             </div>
             <div class="col"></div>
         </div>

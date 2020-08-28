@@ -33,7 +33,8 @@ def book_return(request, book_issue_id):
             code = form.cleaned_data['code']
             if issued_book.check_code(code=code):
                 issued_book.return_book()
-                return HttpResponseRedirect(reverse('books:home'))
+                return HttpResponseRedirect(
+                    reverse('profiles:profile', kwargs={'user_roll_no': request.user.profile.roll_no}))
             code.add_error('code', ValidationError('Wrong Code'))
         context = {'form': form, 'issued_book': issued_book}
         return render(request, 'book_issue/return_book.html', context)

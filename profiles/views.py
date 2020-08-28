@@ -9,6 +9,7 @@ from .forms import ProfileForm
 
 BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
 IssuedBook = apps.get_model('book_issue', 'IssuedBook')
+BookReturn = apps.get_model('book_issue', 'BookReturn')
 
 
 # Create your views here.
@@ -18,7 +19,9 @@ def profile_view(request, user_roll_no):
     profile = Profile.objects.get(roll_no=user_roll_no)
     book_issue_requests = BookIssueCode.objects.all().filter(user=request.user)
     issued_books = IssuedBook.objects.all().filter(user=request.user)
-    context = {'profile': profile, 'book_issue_requests': book_issue_requests, 'issued_books': issued_books}
+    returned_books = BookReturn.objects.all().filter(user=request.user)
+    context = {'profile': profile, 'book_issue_requests': book_issue_requests, 'issued_books': issued_books,
+               'returned_books': returned_books}
     return render(request, 'profiles/profile.html', context)
 
 
