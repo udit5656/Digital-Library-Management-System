@@ -54,7 +54,7 @@ def search_view(request):
         return HttpResponseRedirect(reverse('librarian:search_result', kwargs={'q': q}))
 
 
-def search_result_view(request, q):
+def book_issue_request_search_view(request, q):
     user = User.objects.get(username=q)
     book_issue_requests = BookIssueCode.objects.all().filter(user=user).order_by('-created')
     search_form = SearchForm()
@@ -79,3 +79,9 @@ def search_result_view(request, q):
     context = {'book_issue_requests': book_issue_requests, 'book_issue_code_form': book_issue_code_form,
                'search_form': search_form}
     return render(request, 'librarian/search_result.html', context)
+
+
+def issued_books_view(request):
+    issued_books = IssuedBook.objects.all().order_by('-created')
+    context = {'issued_books': issued_books}
+    return render(request, 'librarian/issued_books.html', context)

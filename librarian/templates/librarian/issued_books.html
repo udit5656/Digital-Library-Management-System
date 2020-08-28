@@ -1,0 +1,22 @@
+{%extends 'librarian/base.html'%}
+{%load crispy_forms_tags %}
+{%block title%}
+    Issued Books
+{%endblock title%}
+{%block content%}
+
+    <table>
+        <tr>
+            <th>Student Name</th>
+            <th>Book Name</th>
+            <th>Code</th>
+        </tr>
+        {%for issued_book in issued_books%}
+            <tr>
+                <td>{{issued_book.user.username}}</td>
+                <td>{{issued_book.book.title}}</td>
+                <td>{{issued_book.return_code}}</td>
+            </tr>
+        {%endfor%}
+    </table>
+{%endblock%}
