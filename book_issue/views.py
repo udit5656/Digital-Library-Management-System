@@ -13,15 +13,21 @@ Book = apps.get_model('books', 'Book')
 # Create your views here.
 def issue(request, book_id):
     book = Book.objects.get(pk=book_id)
-    if book.check_availability():
+    if IssuedBook.objects.all().filter(book=book, user=request.user).count() > 0:
+        error = "You already have issued this book"
+    elif BookIssueCode.objects.all().filter(user=request.user).count() >= 2:
+        error = "You already have reached maximum book issue requests limit."
+    elif book.check_availability():
         book_issue_code = BookIssueCode.create(user=request.user, book=book)
         book_issue_code.save()
         book.books_available = book.books_available - 1
         book.save()
         context = {'error': None, 'book_id': book_id, 'book_issue_code': book_issue_code}
+        return render(request, 'book_issue/issue.html', context)
     else:
         error = "This book is currently not available. Please try later."
-        context = {'error': error, 'book_id': book_id, 'book_issue_code': None}
+
+    context = {'error': error, 'book_id': book_id, 'book_issue_code': None}
     return render(request, 'book_issue/issue.html', context)
 
 
@@ -46,5 +52,8 @@ def book_return(request, book_issue_id):
 
 def cancel_request(request, book_issue_request_id):
     book_issue_request = BookIssueCode.objects.get(pk=book_issue_request_id)
+    book = Book.objects.get(pk=book_issue_request.book.pk)
+    book.books_available += 1
+    book.save()
     book_issue_request.delete()
     return HttpResponseRedirect(reverse('profiles:profile', kwargs={'user_roll_no': request.user.profile.roll_no}))
