@@ -1,5 +1,5 @@
 {%extends 'profiles/base.html'%}
-
+{%load deadlines %}
 {%block title%}
     Profile
 {%endblock title%}
@@ -65,7 +65,12 @@ Profile
                                 <td>{{issued_book.book.title}}</td>
                                 <td>{{issued_book.created}}</td>
                                 <td>
-                                    {{issued_book.deadline|timeuntil}}
+                                    {% check_deadline issued_book.deadline as under_deadline %}
+                                    {% if under_deadline == "True" %}
+                                        {{issued_book.deadline|timeuntil}}
+                                    {%else%}
+                                        Late
+                                    {%endif%}
                                 </td>
                                 <td>
                                     <form action="{%url 'book_issue:book_return' issued_book.pk%}">
