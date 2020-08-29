@@ -1,8 +1,11 @@
 import random
 import string
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.db import models
+
+MAX_ISSUED_BOOK_DURATION = 15  # days
 
 
 # Create your models here.
@@ -36,6 +39,7 @@ class BookIssueCode(TimeStampModel):
         issued_book = IssuedBook.create(user=self.user, book=self.book)
         issued_book.save()
         self.delete()
+        return issued_book
 
     def check_code(self, code):
         if self.code == code:
@@ -56,6 +60,7 @@ class IssuedBook(TimeStampModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_book_user')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='issued_book')
     return_code = models.CharField(max_length=6)
+    deadline = models.DateField(blank=True,null=True)
 
     # Add time stamp of issue book
     # Add method to delete BookIssueCode delete after claiming book
@@ -64,6 +69,11 @@ class IssuedBook(TimeStampModel):
     def create(cls, user, book):
         issued_book = cls(user=user, book=book, return_code=random_string_generator())
         return issued_book
+
+    def add_deadline(self):
+        deadline = self.created + timedelta(days=MAX_ISSUED_BOOK_DURATION)
+        self.deadline = deadline
+        self.save()
 
     def __str__(self):
         return self.return_code

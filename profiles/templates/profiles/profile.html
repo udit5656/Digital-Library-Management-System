@@ -57,12 +57,16 @@ Profile
                         <tr>
                             <th>Book Name</th>
                             <th>Issued Time</th>
+                            <th>Due Date</th>
                             <th>Return Book</th>
                         </tr>
                         {%for issued_book in issued_books%}
                             <tr>
                                 <td>{{issued_book.book.title}}</td>
                                 <td>{{issued_book.created}}</td>
+                                <td>
+                                    {{issued_book.deadline|timeuntil}}
+                                </td>
                                 <td>
                                     <form action="{%url 'book_issue:book_return' issued_book.pk%}">
                                         <input type="submit" value="Return" class="btn btn-primary">

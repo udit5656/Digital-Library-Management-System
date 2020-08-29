@@ -8,6 +8,7 @@ from django.urls import reverse
 
 from .forms import BookIssueCodeForm, SearchForm
 from .tables import IssuedBooksTable
+
 BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
 IssuedBook = apps.get_model('book_issue', 'IssuedBook')
 
@@ -25,7 +26,8 @@ def home(request):
             book_issue_code = BookIssueCode.objects.get(pk=pk)
 
             if book_issue_code.check_code(book_issue_code_form.cleaned_data['code']):
-                book_issue_code.issue_book()
+                issued_book = book_issue_code.issue_book()
+                issued_book.add_deadline()
                 return HttpResponseRedirect(reverse('librarian:home'))
 
             book_issue_code_form.add_error('code', ValidationError("Wrong Code"))
@@ -84,5 +86,5 @@ def book_issue_request_search_view(request, q):
 def issued_books_view(request):
     issued_books = IssuedBook.objects.all().order_by('-created')
     table = IssuedBooksTable(issued_books)
-    context = {'issued_books': issued_books,'table':table}
+    context = {'issued_books': issued_books, 'table': table}
     return render(request, 'librarian/issued_books.html', context)
