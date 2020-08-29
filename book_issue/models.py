@@ -62,7 +62,7 @@ class IssuedBook(TimeStampModel):
     # Add method to update database
     @classmethod
     def create(cls, user, book):
-        issued_book = cls(user=user, book=book, code=random_string_generator())
+        issued_book = cls(user=user, book=book, return_code=random_string_generator())
         return issued_book
 
     def __str__(self):

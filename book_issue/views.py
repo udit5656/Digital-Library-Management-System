@@ -13,8 +13,10 @@ Book = apps.get_model('books', 'Book')
 # Create your views here.
 def issue(request, book_id):
     book = Book.objects.get(pk=book_id)
-    if IssuedBook.objects.all().filter(book=book, user=request.user).count() > 0:
+    if IssuedBook.objects.all().filter(user=request.user).filter(book=book).count() > 0:
         error = "You already have issued this book"
+    elif BookIssueCode.objects.all().filter(user=request.user).filter(book=book).count() > 0:
+        error = "You already requested this book."
     elif BookIssueCode.objects.all().filter(user=request.user).count() >= 2:
         error = "You already have reached maximum book issue requests limit."
     elif book.check_availability():
