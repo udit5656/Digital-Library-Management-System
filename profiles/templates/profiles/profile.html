@@ -40,6 +40,12 @@ Profile
                             <tr>
                                 <td>{{book_issue_request.book.title}}</td>
                                 <td>{{book_issue_request.code}}</td>
+                                <td>
+                                    <form method="post" action="{% url 'book_issue:cancel_request' book_issue_request.pk%}">
+                                        {%csrf_token%}
+                                        <input type="submit" value="Cancel" class="btn btn-danger">
+                                    </form>
+                                </td>
                             </tr>
                         {%endfor%}
                     </table>

@@ -42,3 +42,9 @@ def book_return(request, book_issue_id):
     form = BookReturnCodeForm()
     context = {'form': form, 'issued_book': issued_book}
     return render(request, 'book_issue/return_book.html', context)
+
+
+def cancel_request(request, book_issue_request_id):
+    book_issue_request = BookIssueCode.objects.get(pk=book_issue_request_id)
+    book_issue_request.delete()
+    return HttpResponseRedirect(reverse('profiles:profile', kwargs={'user_roll_no': request.user.profile.roll_no}))

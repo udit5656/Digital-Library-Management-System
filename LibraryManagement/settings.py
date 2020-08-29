@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'profiles.apps.ProfilesConfig',
     'librarian.apps.LibrarianConfig',
     'crispy_forms',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [
