@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -38,6 +39,7 @@ def edit_profile(request, user_roll_no):
             form.save()
             profile = Profile.objects.get(roll_no=user_roll_no)
             context = {'user_roll_no': form.cleaned_data['roll_no']}
+            messages.add_message(request, messages.INFO, 'Profile Updated')
             return HttpResponseRedirect(reverse('profiles:profile', kwargs=context))
         context = {'form': form, 'user_roll_no': user_roll_no, 'profile': profile}
         return render(request, 'profiles/edit_profile.html', context)

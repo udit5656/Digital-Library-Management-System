@@ -4,6 +4,11 @@
     Home
 {%endblock title%}
 {%block content%}
+     {%if messages%}
+            {%for message in messages%}
+                <div class="alert alert-danger" role="alert">{{message}}</div>
+            {%endfor%}
+    {%endif%}
     <div class="container">
         <div class="row">
             <h1>{{book.title}}</h1>

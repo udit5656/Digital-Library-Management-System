@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -28,6 +29,7 @@ def home(request):
             if book_issue_code.check_code(book_issue_code_form.cleaned_data['code']):
                 issued_book = book_issue_code.issue_book()
                 issued_book.add_deadline()
+                messages.add_message(request, messages.INFO, 'Book Issued Successfully')
                 return HttpResponseRedirect(reverse('librarian:home'))
 
             book_issue_code_form.add_error('code', ValidationError("Wrong Code"))

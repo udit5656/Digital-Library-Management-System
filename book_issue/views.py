@@ -1,4 +1,5 @@
 from django.apps import apps
+from django.contrib import messages
 from django.core.exceptions import ValidationError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -29,8 +30,9 @@ def issue(request, book_id):
     else:
         error = "This book is currently not available. Please try later."
 
-    context = {'error': error, 'book_id': book_id, 'book_issue_code': None}
-    return render(request, 'book_issue/issue.html', context)
+    context = {'book_id': book_id}
+    messages.add_message(request, messages.INFO, error)
+    return HttpResponseRedirect(reverse('books:detail_view', kwargs=context))
 
 
 def book_return(request, book_issue_id):
@@ -41,6 +43,7 @@ def book_return(request, book_issue_id):
             code = form.cleaned_data['code']
             if issued_book.check_code(code=code):
                 issued_book.return_book()
+                messages.add_message(request, messages.INFO, 'Book Returned Successfully')
                 return HttpResponseRedirect(
                     reverse('profiles:profile', kwargs={'user_roll_no': request.user.profile.roll_no}))
             code.add_error('code', ValidationError('Wrong Code'))
@@ -58,4 +61,5 @@ def cancel_request(request, book_issue_request_id):
     book.books_available += 1
     book.save()
     book_issue_request.delete()
+    messages.add_message(request, messages.INFO, 'Book Issue Request Cancelled Successfully')
     return HttpResponseRedirect(reverse('profiles:profile', kwargs={'user_roll_no': request.user.profile.roll_no}))

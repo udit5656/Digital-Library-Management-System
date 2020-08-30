@@ -4,6 +4,11 @@
     Librarian Home Page
 {%endblock title%}
 {%block content%}
+    {%if messages%}
+        {% for message in messages %}
+            <div class="alert alert-success" role="alert">{{message}}</div>
+        {%endfor%}
+    {%endif%}
     <form method="get" action="{%url 'librarian:search' %}">
         {{search_form|crispy}}
         <input name="search" value="Search" class="btn btn-primary" type="submit">
