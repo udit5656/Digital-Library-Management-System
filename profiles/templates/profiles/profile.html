@@ -12,13 +12,15 @@ Profile
                 <img src="{{profile.profile_photo.url}}" alt="connect" style="max-height:200px">
             </div>
             <div class="col">
-                <li>Name: {{profile.name}}</li>
-                <li>Roll No: {{profile.roll_no}}</li>
-                <li>Gender: {{profile.gender}}</li>
-                <li>Branch: {{profile.branch}}</li>
-                <li>Year: {{profile.year}}</li>
-                <li>Programme: {{profile.programme}}</li>
-                <li>Email Id: {{profile.email_id}}</li>
+                <ul class="list-group">
+                    <li class="list-group-item">Name: {{profile.name}}</li>
+                    <li class="list-group-item">Roll No: {{profile.roll_no}}</li>
+                    <li class="list-group-item">Gender: {{profile.gender}}</li>
+                    <li class="list-group-item">Branch: {{profile.branch}}</li>
+                    <li class="list-group-item">Year: {{profile.year}}</li>
+                    <li class="list-group-item">Programme: {{profile.programme}}</li>
+                    <li class="list-group-item">Email Id: {{profile.email_id}}</li>
+                </ul>
             </div>
         </div>
         <div class="row">

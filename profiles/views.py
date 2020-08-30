@@ -18,9 +18,9 @@ BookReturn = apps.get_model('book_issue', 'BookReturn')
 @login_required
 def profile_view(request, user_roll_no):
     profile = Profile.objects.get(roll_no=user_roll_no)
-    book_issue_requests = BookIssueCode.objects.all().filter(user=request.user)
-    issued_books = IssuedBook.objects.all().filter(user=request.user)
-    returned_books = BookReturn.objects.all().filter(user=request.user)
+    book_issue_requests = BookIssueCode.objects.all().filter(user=request.user).order_by('-created')
+    issued_books = IssuedBook.objects.all().filter(user=request.user).order_by('-created')
+    returned_books = BookReturn.objects.all().filter(user=request.user).order_by('-created')
     table = BookIssueCodeTable(book_issue_requests)
     issued_books_table = IssuedBookTable(issued_books)
     returned_books_table = ReturnedBookTable(returned_books)
