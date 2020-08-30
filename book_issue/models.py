@@ -26,7 +26,7 @@ def calculate_late_fine(deadline, return_date):
         return 0
     else:
         difference = return_date - deadline
-        difference=difference.days
+        difference = difference.days
         amount = 0
         if difference <= 7:
             amount += difference
@@ -77,6 +77,7 @@ class BookIssueCode(TimeStampModel):
 
 class IssuedBook(TimeStampModel):
     """Check if code entered while claiming book is right and on update database regarding current state of book"""
+    created = models.DateField(auto_now_add=True, verbose_name='Issued Date')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_book_user')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='issued_book')
     return_code = models.CharField(max_length=6)
@@ -113,6 +114,7 @@ class IssuedBook(TimeStampModel):
 
 
 class BookReturn(TimeStampModel):
+    created = models.DateField(auto_now_add=True, verbose_name='Returned Date')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='return_book_user')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='returned_book')
 

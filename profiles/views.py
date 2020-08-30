@@ -6,6 +6,7 @@ from django.urls import reverse
 
 from .models import Profile
 from .forms import ProfileForm
+from .tables import BookIssueCodeTable, ReturnedBookTable, IssuedBookTable
 
 BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
 IssuedBook = apps.get_model('book_issue', 'IssuedBook')
@@ -20,8 +21,12 @@ def profile_view(request, user_roll_no):
     book_issue_requests = BookIssueCode.objects.all().filter(user=request.user)
     issued_books = IssuedBook.objects.all().filter(user=request.user)
     returned_books = BookReturn.objects.all().filter(user=request.user)
+    table = BookIssueCodeTable(book_issue_requests)
+    issued_books_table = IssuedBookTable(issued_books)
+    returned_books_table = ReturnedBookTable(returned_books)
     context = {'profile': profile, 'book_issue_requests': book_issue_requests, 'issued_books': issued_books,
-               'returned_books': returned_books}
+               'returned_books': returned_books, 'table': table, 'returned_books_table': returned_books_table,
+               'issued_books_table': issued_books_table}
     return render(request, 'profiles/profile.html', context)
 
 

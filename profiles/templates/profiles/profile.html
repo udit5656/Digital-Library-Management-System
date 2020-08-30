@@ -1,5 +1,6 @@
 {%extends 'profiles/base.html'%}
 {%load deadlines %}
+{% load render_table from django_tables2 %}
 {%block title%}
     Profile
 {%endblock title%}
@@ -31,73 +32,17 @@ Profile
 
                 <div class="heading">Pending Book Issue Requests</div>
                 <div class="container">
-                    <table>
-                        <tr>
-                            <th>Book Name</th>
-                            <th>Code</th>
-                        </tr>
-                        {%for book_issue_request in book_issue_requests%}
-                            <tr>
-                                <td>{{book_issue_request.book.title}}</td>
-                                <td>{{book_issue_request.code}}</td>
-                                <td>
-                                    <form method="post" action="{% url 'book_issue:cancel_request' book_issue_request.pk%}">
-                                        {%csrf_token%}
-                                        <input type="submit" value="Cancel" class="btn btn-danger">
-                                    </form>
-                                </td>
-                            </tr>
-                        {%endfor%}
-                    </table>
+                    {% render_table table %}
                 </div>
 
                 <div class="heading">Books Issued</div>
                 <div class="container">
-                    <table>
-                        <tr>
-                            <th>Book Name</th>
-                            <th>Issued Time</th>
-                            <th>Due Date</th>
-                            <th>Return Book</th>
-                        </tr>
-                        {%for issued_book in issued_books%}
-                            <tr>
-                                <td>{{issued_book.book.title}}</td>
-                                <td>{{issued_book.created}}</td>
-                                <td>
-                                    {% check_deadline issued_book.deadline as under_deadline %}
-                                    {% if under_deadline == "True" %}
-                                        {{issued_book.deadline|timeuntil}}
-                                    {%else%}
-                                        Late by {% late_by issued_book.deadline %} day
-                                    {%endif%}
-                                </td>
-                                <td>
-                                    <form action="{%url 'book_issue:book_return' issued_book.pk%}">
-                                        <input type="submit" value="Return" class="btn btn-primary">
-                                    </form>
-                                </td>
-                            </tr>
-                        {%endfor%}
-                    </table>
+                    {% render_table issued_books_table %}
                 </div>
 
                 <div class="heading">Books Returned</div>
                 <div class="container">
-                    <table>
-                        <tr>
-                            <th>Book Name</th>
-                            <th>Returned Time</th>
-                            <th>Late Fine</th>
-                        </tr>
-                        {%for returned_book in returned_books%}
-                            <tr>
-                                <td>{{returned_book.book.title}}</td>
-                                <td>{{returned_book.created}}</td>
-                                <td>Rs {{returned_book.latefine.amount}}</td>
-                            </tr>
-                        {%endfor%}
-                    </table>
+                    {% render_table returned_books_table %}
                 </div>
 
             </div>
