@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from .forms import BookSearchForm
 from .models import Book
+from .tables import BookSearchResultTable
 
 
 # Create your views here.
@@ -18,7 +19,8 @@ def home(request):
             result = Book.objects.all().filter(
                 Q(title__icontains=query) | Q(author_name__icontains=query) | Q(publisher_name__icontains=query) | Q(
                     pub_year__icontains=query))
-            context = {'result': result, 'profile': profile}
+            table = BookSearchResultTable(result)
+            context = {'profile': profile, 'table': table}
             return render(request, 'books/result.html', context)
         profile = User.objects.get(username=request.user.username).profile
         context = {'profile': profile, 'form': form}
