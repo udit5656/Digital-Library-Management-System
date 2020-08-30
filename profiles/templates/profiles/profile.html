@@ -29,22 +29,18 @@ Profile
         <div class="row">
             <div class="col-2"></div>
             <div class="col-auto">
-
                 <div class="heading">Pending Book Issue Requests</div>
-                <div class="container">
-                    {% render_table table %}
-                </div>
-
+                    <div class="container">
+                        {% render_table table %}
+                    </div>
                 <div class="heading">Books Issued</div>
                 <div class="container">
                     {% render_table issued_books_table %}
                 </div>
-
                 <div class="heading">Books Returned</div>
                 <div class="container">
                     {% render_table returned_books_table %}
                 </div>
-
             </div>
             <div class="col"></div>
         </div>

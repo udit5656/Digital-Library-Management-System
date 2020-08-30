@@ -1,2 +1,7 @@
-
-<a class="btn btn-primary btn-sm" href="{% url 'book_issue:book_return' record.id %}">Return</a>
+{%load deadlines %}
+{% check_deadline record.deadline as under_deadline %}
+{% if under_deadline == "True" %}
+    {{record.deadline|timeuntil}}
+{%else%}
+    Late by {% late_by record.deadline %} day
+{%endif%}

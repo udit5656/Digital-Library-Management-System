@@ -1,6 +1,7 @@
 from django.apps import apps
 from django_tables2 import tables, TemplateColumn
 
+ACTION = '''<a class="btn btn-primary btn-sm" href="{% url "book_issue:book_return" record.id %}">Return</a>'''
 BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
 IssuedBook = apps.get_model('book_issue', 'IssuedBook')
 BookReturn = apps.get_model('book_issue', 'BookReturn')
@@ -16,13 +17,14 @@ class BookIssueCodeTable(tables.Table):
 
 
 class IssuedBookTable(tables.Table):
+
     class Meta:
         model = IssuedBook
         template_name = 'django_tables2/bootstrap.html'
-        fields = ('book', 'created', 'return_book')
+        fields = ('book', 'created', 'due_date', 'book_return_option')
 
-    # due_date = TemplateColumn(template_name='profiles/tables/issued_book_column_update.html')
-    return_book = TemplateColumn(template_name='profiles/tables/issued_book_column_update.html')
+    due_date = TemplateColumn(template_name='profiles/tables/issued_book_column_update.html')
+    book_return_option = TemplateColumn(ACTION)
 
 
 class ReturnedBookTable(tables.Table):
