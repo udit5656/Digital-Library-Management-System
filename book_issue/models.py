@@ -21,6 +21,26 @@ def random_string_generator(size=6, chars=string.ascii_lowercase + string.digits
     return ''.join(random.choice(chars) for _ in range(size))
 
 
+def calculate_late_fine(deadline, return_date):
+    if deadline > return_date:
+        return 0
+    else:
+        difference = return_date - deadline
+        difference=difference.days
+        amount = 0
+        if difference <= 7:
+            amount += difference
+            difference = 0
+        if difference > 7:
+            amount += 7
+            difference -= 7
+        if difference > 7:
+            amount += 14
+            difference -= 7
+        amount += 5 * difference
+        return amount
+
+
 class BookIssueCode(TimeStampModel):
     """Issues code for claiming of book and check for it's validation"""
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user')
@@ -60,7 +80,7 @@ class IssuedBook(TimeStampModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='issued_book_user')
     book = models.ForeignKey('books.Book', on_delete=models.CASCADE, related_name='issued_book')
     return_code = models.CharField(max_length=6)
-    deadline = models.DateField(blank=True,null=True)
+    deadline = models.DateField(blank=True, null=True)
 
     # Add time stamp of issue book
     # Add method to delete BookIssueCode delete after claiming book
@@ -86,6 +106,9 @@ class IssuedBook(TimeStampModel):
     def return_book(self):
         returned_book = BookReturn.create(user=self.user, book=self.book)
         returned_book.save()
+        late_fine_amount = calculate_late_fine(self.deadline, returned_book.created)
+        late_fine = LateFine.create(returned_book, late_fine_amount)
+        late_fine.save()
         self.delete()
 
 
@@ -104,3 +127,16 @@ class BookReturn(TimeStampModel):
     # update book status in user profile
     # deletes book issue and add it to bookhistory
     # update fine
+
+
+class LateFine(TimeStampModel):
+    """Model which stores late fine amount and fine payment status"""
+    returned_book = models.OneToOneField(BookReturn, on_delete=models.CASCADE)
+    amount = models.IntegerField(default=0)
+    payed = models.BooleanField(default=False)
+    payed_date = models.DateTimeField(blank=True, null=True)
+
+    @classmethod
+    def create(cls, book, amount, payed=False):
+        late_fine = cls(returned_book=book, amount=amount, payed=payed)
+        return late_fine

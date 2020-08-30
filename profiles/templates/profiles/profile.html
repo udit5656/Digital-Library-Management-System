@@ -69,7 +69,7 @@ Profile
                                     {% if under_deadline == "True" %}
                                         {{issued_book.deadline|timeuntil}}
                                     {%else%}
-                                        Late
+                                        Late by {% late_by issued_book.deadline %} day
                                     {%endif%}
                                 </td>
                                 <td>
@@ -88,11 +88,13 @@ Profile
                         <tr>
                             <th>Book Name</th>
                             <th>Returned Time</th>
+                            <th>Late Fine</th>
                         </tr>
                         {%for returned_book in returned_books%}
                             <tr>
                                 <td>{{returned_book.book.title}}</td>
                                 <td>{{returned_book.created}}</td>
+                                <td>Rs {{returned_book.latefine.amount}}</td>
                             </tr>
                         {%endfor%}
                     </table>
