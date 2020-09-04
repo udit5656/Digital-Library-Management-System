@@ -134,6 +134,7 @@ class BookReturn(TimeStampModel):
 class LateFine(TimeStampModel):
     """Model which stores late fine amount and fine payment status"""
     returned_book = models.OneToOneField(BookReturn, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='student', blank=True, null=True)
     amount = models.IntegerField(default=0)
     payed = models.BooleanField(default=False)
     payed_date = models.DateTimeField(blank=True, null=True)

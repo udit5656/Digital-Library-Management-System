@@ -1,6 +1,7 @@
 from django.apps import apps
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -12,6 +13,7 @@ from .tables import BookIssueCodeTable, ReturnedBookTable, IssuedBookTable
 BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
 IssuedBook = apps.get_model('book_issue', 'IssuedBook')
 BookReturn = apps.get_model('book_issue', 'BookReturn')
+LateFine = apps.get_model('book_issue', 'LateFine')
 
 
 # Create your views here.
@@ -25,8 +27,9 @@ def profile_view(request, user_roll_no):
     table = BookIssueCodeTable(book_issue_requests)
     issued_books_table = IssuedBookTable(issued_books)
     returned_books_table = ReturnedBookTable(returned_books)
+    total_fine = LateFine.objects.filter(user=request.user, payed=False).aggregate(Sum('amount'))
     context = {'profile': profile, 'table': table, 'returned_books_table': returned_books_table,
-               'issued_books_table': issued_books_table}
+               'issued_books_table': issued_books_table, 'total_fine': total_fine['amount__sum'] or 0 }
     return render(request, 'profiles/profile.html', context)
 
 
