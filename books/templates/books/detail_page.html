@@ -4,7 +4,11 @@
     Home
 {%endblock title%}
 {%block content%}
-     {%if messages%}
+    {% if book_issue_code %}
+        {%for message in messages%}
+            <div class="alert alert-success" role="alert">{{message}}</div>
+        {%endfor%}
+    {% elif messages%}
             {%for message in messages%}
                 <div class="alert alert-danger" role="alert">{{message}}</div>
             {%endfor%}
@@ -31,6 +35,14 @@
                     <input type="submit" value="Get Issue Code" class="btn btn-primary">
                 </form>
             </div>
+        </div>
+        <div class="row">
+            {% if book_issue_code %}
+                <div class="col">Your Book Issue Request Code is: </div>
+                <div class="col">
+                    {{book_issue_code}}
+                </div>
+            {% endif %}
         </div>
     </div>
 {%endblock%}

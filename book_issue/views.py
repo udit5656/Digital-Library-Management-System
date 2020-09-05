@@ -25,8 +25,9 @@ def issue(request, book_id):
         book_issue_code.save()
         book.books_available = book.books_available - 1
         book.save()
-        context = {'error': None, 'book_id': book_id, 'book_issue_code': book_issue_code}
-        return render(request, 'book_issue/issue.html', context)
+        messages.add_message(request, messages.INFO, "Book issue code successfully generated")
+        context = {'book_id': book_id}
+        return HttpResponseRedirect(reverse('books:detail_view', kwargs=context))
     else:
         error = "This book is currently not available. Please try later."
 

@@ -1,3 +1,4 @@
+from django.apps import apps
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Q
@@ -6,6 +7,8 @@ from django.shortcuts import render
 from .forms import BookSearchForm
 from .models import Book
 from .tables import BookSearchResultTable
+
+BookIssueCode = apps.get_model('book_issue', 'BookIssueCode')
 
 
 # Create your views here.
@@ -31,5 +34,9 @@ def home(request):
 def detail_view(request, book_id):
     book = Book.objects.get(pk=book_id)
     profile = User.objects.get(username=request.user.username).profile
-    context = {'book': book, 'profile': profile}
+    context = {'book': book, 'profile': profile, 'book_issue_code': None}
+    book_issue_code = BookIssueCode.objects.filter(user=request.user, book=book)
+    if book_issue_code.exists():
+        context = {'book': book, 'profile': profile,
+                   'book_issue_code': book_issue_code.first().code}
     return render(request, 'books/detail_page.html', context)
